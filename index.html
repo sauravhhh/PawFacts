@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/9d418bb1-2cb5-4a9e-9ee1-0ed224f323c5.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .cat-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 30px auto;
+            display: block;
+            border: 4px solid #a8e6cf;
+            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.5);
+            animation: catBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes catBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .fact-box {
+            background: rgba(255, 255, 255, 0.8);
+            color: #444;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #a8e6cf, #88d8c0);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(168, 230, 207, 0.4);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #7dd3c0, #6bc5a0);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(168, 230, 207, 0.6);
+        }
+
+        .loading {
+            display: none;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .credits {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 30px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 15px;
+            }
+
+            .cat-image {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 25px;
+            }
+
+            .fact-box {
+                font-size: 1rem;
+                padding: 20px;
+                min-height: 100px;
+                margin-bottom: 25px;
+            }
+
+            button {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 15px;
+            }
+
+            .cat-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .fact-box {
+                font-size: 0.95rem;
+                padding: 18px;
+                min-height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cat Facts</h1>
+        
+        <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+             alt="Cute Cat" 
+             class="cat-image"
+             onerror="this.src='https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'">
+        
+        <div class="loading" id="loading">
+            Loading cat fact...
+        </div>
+        
+        <div class="fact-box" id="factBox">
+            Click the button below to discover an interesting cat fact!
+        </div>
+        
+        <button onclick="getCatFact()">Get Cat Fact</button>
+        
+        <div class="credits">
+            Made with ❤️ by sauravhhh
+        </div>
+    </div>
+
+    <script>
+        // Array of real cat images from Unsplash
+        const catImages = [
+            'https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+            'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+        ];
+
+        let imageIndex = 0;
+
+        async function getCatFact() {
+            const factBox = document.getElementById('factBox');
+            const loading = document.getElementById('loading');
+            const catImage = document.querySelector('.cat-image');
+            
+            // Show loading
+            loading.style.display = 'block';
+            factBox.style.opacity = '0.6';
+            
+            // Change cat image
+            imageIndex = (imageIndex + 1) % catImages.length;
+            catImage.src = catImages[imageIndex];
+            
+            try {
+                const response = await fetch('https://catfact.ninja/fact');
+                const data = await response.json();
+                
+                // Display clean fact without any emojis
+                factBox.textContent = data.fact;
+                
+            } catch (error) {
+                factBox.textContent = "Sorry, couldn't fetch a cat fact. Please try again.";
+            }
+            
+            // Hide loading
+            loading.style.display = 'none';
+            factBox.style.opacity = '1';
+        }
+        
+        // Load initial fact
+        window.addEventListener('load', function() {
+            setTimeout(getCatFact, 800);
+        });
+    </script>
+</body>
+                                                     </html>
+                                                     
