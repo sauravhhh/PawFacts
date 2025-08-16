@@ -23,13 +23,13 @@ A simple and beautiful website that shows random cat facts with real cat photos.
 
 ## Technologies
 
-- HTML, CSS, JavaScript
-- Cat Facts API (free, no key needed)
+- HTML
+- Cat Facts API
 - Unsplash cat images
 
 ## Demo
 
-Just open `index.html` in any modern web browser and start discovering cat facts!
+Just open `sauravhhh.github.io/PawFacts` in any modern web browser and start discovering cat facts!
 
 ## Credits
 
